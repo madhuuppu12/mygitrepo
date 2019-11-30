@@ -1,2 +1,0 @@
-# mygitrepo
-for developers
