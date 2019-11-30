@@ -21,6 +21,15 @@ public class MovieVo {
 	private MultipartFile moviePoster;
 	private String slotName;
 
+	private String timings;
+	public String getTimings() {
+		return timings;
+	}
+
+	public void setTimings(String timings) {
+		this.timings = timings;
+	}
+
 	public Long getId() {
 		return id;
 	}
