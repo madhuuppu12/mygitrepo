@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -50,6 +51,15 @@ public class AdminController {
       
 		return new ResponseEntity<>(HttpStatus.OK);
 
+	}
+	
+	@GetMapping("/getMoviesData")
+	public ResponseEntity<?> getMovieData(){
+		
+		List<ScreenVo> list=new ArrayList<>();
+		list=movieService.getMoviesData();
+		return new ResponseEntity<>(HttpStatus.OK);
+		
 	}
 
 	@PostMapping("/deleteMovie")

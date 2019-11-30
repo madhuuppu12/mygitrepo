@@ -57,4 +57,26 @@ public class Mapper {
 
 		return screen;
 	}
+	
+	
+	
+	public List<ScreenVo> convertScreenDtoToVo(List<ScreenDto> list) {
+		List<ScreenVo> voList = new ArrayList<>();
+
+		list.forEach(action -> {
+			ScreenVo vo = new ScreenVo();
+			vo.setScreenName(action.getScreenName());
+			action.getTimeDto().stream().forEach(timing -> {
+				if (timing.getStatus().equals("INACTIVE")) {
+					vo.setStartDate(timing.getStartDate());
+					vo.setTimings(timing.getTimings());
+					vo.setMovieName(timing.getMovieName());
+				}
+
+			});
+			voList.add(vo);
+		});
+		return voList;
+
+	}
 }

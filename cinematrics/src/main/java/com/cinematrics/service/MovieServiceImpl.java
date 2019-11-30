@@ -67,4 +67,10 @@ public class MovieServiceImpl implements MovieService {
 			//throw new MovieNotFoundException("Movie not found with id " + movie.getId());
 	}
 
+	@Override
+	public List<ScreenVo> getMoviesData() {
+		List<ScreenDto> list=screenDao.findAll();		
+		return mapper.convertScreenDtoToVo(list);
+	}
+
 }

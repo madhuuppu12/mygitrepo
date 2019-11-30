@@ -1,5 +1,7 @@
 package com.cinematrics.service;
 
+import java.util.List;
+
 import com.cinematrics.util.MovieNotFoundException;
 import com.cinematrics.vo.MovieVo;
 import com.cinematrics.vo.ScreenVo;
@@ -10,4 +12,5 @@ public interface MovieService {
 
 	void deleteMovie(MovieVo movie) throws MovieNotFoundException;
 
+	List<ScreenVo> getMoviesData();
 }
