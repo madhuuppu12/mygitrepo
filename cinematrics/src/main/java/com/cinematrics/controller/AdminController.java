@@ -58,7 +58,7 @@ public class AdminController {
 		
 		List<ScreenVo> list=new ArrayList<>();
 		list=movieService.getMoviesData();
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(list, HttpStatus.OK);
 		
 	}
 
