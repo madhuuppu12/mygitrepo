@@ -1,47 +1,78 @@
 package com.cinematrics.dto;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Document
 public class ScreenDto {
 
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	//private Long id;
+	@Id
+	private Long movieId;
 
-	private String screenName;
+	private String movieName;
 
-	private List<TimeDto> timeDto;
+	@JsonProperty("movieDate")
+	@JsonFormat(pattern = "dd-MM-yyyy")
+	private LocalDate movieDate;
 
-//	public Long getId() {
-//		return id;
-//	}
-//
-//	public void setId(Long id) {
-//		this.id = id;
-//	}
+	private List<ShowTime> showTimes;
 
-	public String getScreenName() {
-		return screenName;
+	private Integer screenNo;
+
+	private Integer noOfSeats;
+
+	public Long getMovieId() {
+		return movieId;
 	}
 
-	public void setScreenName(String screenName) {
-		this.screenName = screenName;
+	public void setMovieId(Long movieId) {
+		this.movieId = movieId;
 	}
 
-	public List<TimeDto> getTimeDto() {
-		return timeDto;
+	public String getMovieName() {
+		return movieName;
 	}
 
-	public void setTimeDto(List<TimeDto> timeDto) {
-		this.timeDto = timeDto;
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
 	}
 
-	
+	public LocalDate getMovieDate() {
+		return movieDate;
+	}
+
+	public void setMovieDate(LocalDate movieDate) {
+		this.movieDate = movieDate;
+	}
+
+	public List<ShowTime> getShowTimes() {
+		return showTimes;
+	}
+
+	public void setShowTimes(List<ShowTime> showTimes) {
+		this.showTimes = showTimes;
+	}
+
+	public Integer getScreenNo() {
+		return screenNo;
+	}
+
+	public void setScreenNo(Integer screenNo) {
+		this.screenNo = screenNo;
+	}
+
+	public Integer getNoOfSeats() {
+		return noOfSeats;
+	}
+
+	public void setNoOfSeats(Integer noOfSeats) {
+		this.noOfSeats = noOfSeats;
+	}
+
 }

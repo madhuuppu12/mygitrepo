@@ -1,72 +1,60 @@
 package com.cinematrics.dto;
 
-import java.sql.Blob;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-//@Entity
 public class MovieDto {
 
-	//@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long movieId;
 
-	private String name;
+	private String movieName;
 
-	private LocalDateTime startDate;
+	private LocalDate movieDate;
 
-	private LocalDateTime endDate;
+	private List<ShowTime> showTimes;
 
-	private String screenNo;
+	private ScreenDto screen;
 
 	private Integer noOfSeats;
-	
-	private String slotName;
 
-	private Blob moviePoster;
-
-	public Long getId() {
-		return id;
+	public Long getMovieId() {
+		return movieId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setMovieId(Long movieId) {
+		this.movieId = movieId;
 	}
 
-	public String getName() {
-		return name;
+	public String getMovieName() {
+		return movieName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setMovieName(String movieName) {
+		this.movieName = movieName;
 	}
 
-	public LocalDateTime getStartDate() {
-		return startDate;
+	public LocalDate getMovieDate() {
+		return movieDate;
 	}
 
-	public void setStartDate(LocalDateTime startDate) {
-		this.startDate = startDate;
+	public void setMovieDate(LocalDate movieDate) {
+		this.movieDate = movieDate;
 	}
 
-	public LocalDateTime getEndDate() {
-		return endDate;
+	public List<ShowTime> getShowTimes() {
+		return showTimes;
 	}
 
-	public void setEndDate(LocalDateTime endDate) {
-		this.endDate = endDate;
+	public void setShowTimes(List<ShowTime> showTimes) {
+		this.showTimes = showTimes;
 	}
 
-	public String getScreenNo() {
-		return screenNo;
+	public ScreenDto getScreen() {
+		return screen;
 	}
 
-	public void setScreenNo(String screenNo) {
-		this.screenNo = screenNo;
+	public void setScreen(ScreenDto screen) {
+		this.screen = screen;
 	}
 
 	public Integer getNoOfSeats() {
@@ -76,22 +64,9 @@ public class MovieDto {
 	public void setNoOfSeats(Integer noOfSeats) {
 		this.noOfSeats = noOfSeats;
 	}
-
-	public Blob getMoviePoster() {
-		return moviePoster;
-	}
-
-	public void setMoviePoster(Blob moviePoster) {
-		this.moviePoster = moviePoster;
-	}
-
-	public String getSlotName() {
-		return slotName;
-	}
-
-	public void setSlotName(String slotName) {
-		this.slotName = slotName;
-	}
+	
+	
+	
 	
 	
 

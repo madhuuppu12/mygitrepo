@@ -52,8 +52,8 @@ public class Mapper {
 			timings.setStatus("INACTIVE");
 			list.add(timings);
 		});
-		screen.setScreenName(vo.getScreenName());
-		screen.setTimeDto(list);
+		//screen.setScreenName(vo.getScreenName());
+		//screen.setTimeDto(list);
 
 		return screen;
 	}
@@ -63,7 +63,7 @@ public class Mapper {
 	public List<ScreenVo> convertScreenDtoToVo(List<ScreenDto> list) {
 		List<ScreenVo> voList = new ArrayList<>();
 
-		list.forEach(action -> {
+		list.forEach(action -> {/*
 			ScreenVo vo = new ScreenVo();
 			vo.setScreenName(action.getScreenName());
 			action.getTimeDto().stream().forEach(timing -> {
@@ -75,7 +75,7 @@ public class Mapper {
 
 			});
 			voList.add(vo);
-		});
+		*/});
 		return voList;
 
 	}
