@@ -1,5 +1,7 @@
 package com.cinematrics.dto;
 
+import java.util.List;
+
 public class ShowTime {
 	
 	private Long id;
@@ -7,6 +9,8 @@ public class ShowTime {
 	private String name;
 	
 	private boolean checked;
+	
+	private List<SeatDto> seats;
 
 	public Long getId() {
 		return id;
@@ -30,6 +34,14 @@ public class ShowTime {
 
 	public void setChecked(boolean checked) {
 		this.checked = checked;
+	}
+
+	public List<SeatDto> getSeats() {
+		return seats;
+	}
+
+	public void setSeats(List<SeatDto> seats) {
+		this.seats = seats;
 	}
 	
 	

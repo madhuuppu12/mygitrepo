@@ -1,12 +1,10 @@
 package com.cinematrics.service;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -21,6 +19,7 @@ import com.cinematrics.dao.ScreenDao;
 import com.cinematrics.dto.Movie;
 import com.cinematrics.dto.MovieDto;
 import com.cinematrics.dto.ScreenDto;
+import com.cinematrics.dto.SeatDto;
 import com.cinematrics.mapper.Mapper;
 import com.cinematrics.util.MovieNotFoundException;
 import com.cinematrics.vo.MovieVo;
@@ -42,7 +41,6 @@ public class MovieServiceImpl implements MovieService {
 	@Override
 	public void addMovie(ScreenVo vo) {
 
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 		List<LocalDateTime> dates = new ArrayList<>();
 		long numOfDaysBetween = ChronoUnit.DAYS.between(vo.getStartDate(), vo.getEndDate());
 		if (numOfDaysBetween > 0) {
@@ -100,14 +98,14 @@ public class MovieServiceImpl implements MovieService {
 		List<ScreenDto> sortedList = screenDao.findAll(sort);
 
 		sortedList.forEach(data -> {
+			// Create seatsList
 			if (data.getMovieDate().equals(vo.getMovieDate())) {
 				List<String> l = new ArrayList<>();
 				vo.getShowTimes().forEach(d -> {
 					l.add(d.getName());
 				});
-				data.getShowTimes().forEach(shows ->
 
-				{
+				data.getShowTimes().forEach(shows -> {
 					System.out.println("show times  " + Arrays.asList(vo.getShowTimes()));
 					if (l.contains(shows.getName())) {
 
@@ -116,15 +114,46 @@ public class MovieServiceImpl implements MovieService {
 
 				}
 
-				);
+			);
 			}
 
 		}
 
 		);
 
+		List<SeatDto> seatsList = new ArrayList<SeatDto>();
+		for (Long i = 0l; i < vo.getNoOfSeats(); i++) {
+			SeatDto singleSeat = new SeatDto();
+			singleSeat.setSeatStatus(false);
+			singleSeat.setSeatId(i);
+			if (i <= 20) {
+				singleSeat.setSeatClass("NORMAL");
+				singleSeat.setSeatFare(75d);
+
+			}
+			if (i > 20 && i < 40) {
+				singleSeat.setSeatClass("EXECUTIVE");
+				singleSeat.setSeatFare(150d);
+			}
+			if (i > 40) {
+				singleSeat.setSeatClass("VIP");
+				singleSeat.setSeatFare(300d);
+			}
+
+			seatsList.add(singleSeat);
+		}
+
+		vo.getShowTimes().forEach(show -> {
+			show.setSeats(seatsList);
+		});
+		vo.setShowTimes(vo.getShowTimes());
+
 		Optional<ScreenDto> rec = sortedList.stream().findFirst();
-		vo.setMovieId(rec.get().getMovieId() + 1);
+
+		if (rec.isPresent()) {
+			vo.setMovieId(rec.get().getMovieId() + 1);
+		} else
+			vo.setMovieId(1l);
 		screenDao.save(vo);
 
 	}

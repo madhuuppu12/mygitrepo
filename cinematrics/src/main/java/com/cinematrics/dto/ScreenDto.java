@@ -26,6 +26,8 @@ public class ScreenDto {
 	private Integer screenNo;
 
 	private Integer noOfSeats;
+	
+	
 
 	public Long getMovieId() {
 		return movieId;
