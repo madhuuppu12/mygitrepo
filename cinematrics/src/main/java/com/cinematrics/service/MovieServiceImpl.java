@@ -1,5 +1,6 @@
 package com.cinematrics.service;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -8,14 +9,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.bson.BsonBinarySubType;
+import org.bson.types.Binary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cinematrics.dao.MovieDao;
 import com.cinematrics.dao.ScreenDao;
-import com.cinematrics.dto.Movie;
+import com.cinematrics.dto.MasterMovieDto;
 import com.cinematrics.dto.MovieDto;
 import com.cinematrics.dto.ScreenDto;
 import com.cinematrics.dto.SeatDto;
@@ -73,13 +77,13 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public List<Movie> getMoviesList() {
+	public List<MasterMovieDto> getMoviesList() {
 
 		return movieDao.findAll();
 	}
 
 	@Override
-	public void saveMoviesList(List<Movie> movie) {
+	public void saveMoviesList(List<MasterMovieDto> movie) {
 		movieDao.saveAll(movie);
 	}
 
@@ -150,6 +154,22 @@ public class MovieServiceImpl implements MovieService {
 		} else
 			vo.setMovieId(1l);
 		screenDao.save(vo);
+
+	}
+
+	@Override
+	public void saveMoviesListWithImage(String name, Long id, MultipartFile file) {
+		MasterMovieDto movieDto = new MasterMovieDto();
+		movieDto.setId(id);
+		movieDto.setName(name);
+		try {
+			movieDto.setImage(new Binary(BsonBinarySubType.BINARY, file.getBytes()));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		movieDao.save(movieDto);
 
 	}
 

@@ -1,5 +1,6 @@
 package com.cinematrics.controller;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.cinematrics.dao.ScreenDao;
-import com.cinematrics.dto.Movie;
+
+import com.cinematrics.dto.MasterMovieDto;
 import com.cinematrics.dto.ScreenDto;
 import com.cinematrics.service.MovieService;
 import com.cinematrics.service.ScreenService;
@@ -99,7 +102,7 @@ public class AdminController {
 	// =============== Add Master movies List===========================
 	@GetMapping("/getMoviesList")
 	public GateWayResponse<?> getMoviesList() {
-		List<Movie> list;
+		List<MasterMovieDto> list;
 		try {
 			list = movieService.getMoviesList();
 			return new GateWayResponse<>(true, HttpStatus.OK, list);
@@ -109,9 +112,18 @@ public class AdminController {
 		}
 	}
 
+	// save master data with  images
+	@GetMapping("/saveMoviesListWithImage")
+			public GateWayResponse<?> saveMoviesListWithImage(@RequestParam String name,@RequestParam String id,@RequestParam MultipartFile file) throws IOException {
+				
+				Long l=Long.parseLong(id);
+				movieService.saveMoviesListWithImage(name,l,file);
+				return new GateWayResponse<>(HttpStatus.OK, "success");
+
+			}
 	// =================Get master movies List
 	@PostMapping("/saveMoviesList")
-	public GateWayResponse<?> saveMoviesList(@RequestBody List<Movie> movie) {
+	public GateWayResponse<?> saveMoviesList(@RequestBody List<MasterMovieDto> movie) {
 		try {
 			movieService.saveMoviesList(movie);
 		} catch (Exception e) {
