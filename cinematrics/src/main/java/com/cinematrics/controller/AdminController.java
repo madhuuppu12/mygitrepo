@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cinematrics.dao.ScreenDao;
 import com.cinematrics.dto.Movie;
-import com.cinematrics.dto.MovieDto;
 import com.cinematrics.dto.ScreenDto;
 import com.cinematrics.service.MovieService;
+import com.cinematrics.service.ScreenService;
 import com.cinematrics.util.GateWayResponse;
 import com.cinematrics.util.MovieNotFoundException;
 import com.cinematrics.vo.MovieVo;
@@ -40,12 +40,14 @@ public class AdminController {
 	@Autowired
 	private ScreenDao screenDao;
 
+	@Autowired
+	private ScreenService screenService;
+
 	// Add movies to Screen with show date show time and with seats associated
+	@PostMapping("/addMovieInScreen")
+	public GateWayResponse<?> addMovieInScreen(@RequestBody ScreenDto dto) throws ParseException {
 
-	@PostMapping("/addMovie")
-	public GateWayResponse<?> addMovie(@RequestBody ScreenDto dto) throws ParseException {
-
-		movieService.addMovie(dto);
+		movieService.addMovieInScreen(dto);
 
 		return new GateWayResponse<>(HttpStatus.OK);
 
@@ -53,8 +55,8 @@ public class AdminController {
 
 	// get all Movies in Screen
 
-	@GetMapping("/getAllAddedMovies")
-	public GateWayResponse<?> getAllAddedMovies() {
+	@GetMapping("/getAllAddedMoviesInScreen")
+	public GateWayResponse<?> getAllAddedMoviesInScreen() {
 		try {
 			List<ScreenDto> result = screenDao.findAll();
 
@@ -66,16 +68,19 @@ public class AdminController {
 
 	}
 
-	@PostMapping("/addNewMovie")
-	public ResponseEntity<?> addNewMovie(@RequestBody MovieDto dto) throws ParseException {
-
-		movieService.addNewMovie(dto);
-
-		return new ResponseEntity<>(HttpStatus.OK);
+	@PostMapping("/deleteAShowInScreen")
+	public GateWayResponse<?> deleteAShowInScreen(@RequestBody ScreenDto dto) {
+		try {
+			screenService.deleteAShowInScreen(dto);
+			return new GateWayResponse<>(HttpStatus.OK, "success");
+		} catch (Exception e) {
+			log.error("Error in deleteAShowInScreen {} ", e);
+			return new GateWayResponse<>(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
 
 	}
 
-	// ============Delete movie by Id===
+	/*// ============Delete movie by Id===
 	@PostMapping("/deleteMovie")
 	public ResponseEntity<?> deleteMovie(@RequestBody MovieVo movie) {
 
@@ -89,8 +94,8 @@ public class AdminController {
 
 		return new ResponseEntity<>(HttpStatus.OK);
 
-	}
-
+	}*/
+/*
 	// =============== Add Master movies List===========================
 	@GetMapping("/getMoviesList")
 	public GateWayResponse<?> getMoviesList() {
@@ -100,44 +105,41 @@ public class AdminController {
 			return new GateWayResponse<>(true, HttpStatus.OK, list);
 		} catch (Exception e) {
 			log.error("Exception {}", e);
+			return new GateWayResponse<>(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
-
-		return new GateWayResponse<>(HttpStatus.BAD_REQUEST, "No Records Found");
 	}
 
 	// =================Get master movies List
 	@PostMapping("/saveMoviesList")
 	public GateWayResponse<?> saveMoviesList(@RequestBody List<Movie> movie) {
-		movieService.saveMoviesList(movie);
+		try {
+			movieService.saveMoviesList(movie);
+		} catch (Exception e) {
+			log.error("Exception {}", e);
+		}
+
 		return new GateWayResponse<>(HttpStatus.OK, "success");
 
 	}
-
-	// =================== findAllmovies and seats associated with Screen on date;
+*/
+	// =================== findAllmovies and seats associated with Screen on
+	// date;
 	@GetMapping("/findByMovieNameAndMovieDate")
 	public GateWayResponse<?> findByMovieNameAndMovieDate(@RequestParam String movieName, @RequestParam String date) {
-		DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-		LocalDate localDate = LocalDate.parse(date, formatter1);
 
-		List<ScreenDto> result = screenDao.findByMovieNameAndMovieDate(movieName, localDate);
-		return new GateWayResponse<>(true, HttpStatus.OK, result);
+		try {
+			DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			LocalDate localDate = LocalDate.parse(date, formatter1);
 
-	}
-
-	@PostMapping("/bookMyTicket")
-	public GateWayResponse<?> bookMyTicket(@RequestBody ScreenDto dto) {
-		List<ScreenDto> result = screenDao.findByMovieNameAndMovieDate(dto.getMovieName(), dto.getMovieDate());
-		// screenDao.save(dto);
-		result.get(0).getShowTimes().forEach(show -> {
-			show.getSeats().forEach(seat -> {
-				if (seat.getSeatId() >= 50) {
-					seat.setSeatStatus(true);
-				}
-			});
-		});
-		screenDao.save(result.get(0));
-		return new GateWayResponse<>(true, HttpStatus.OK, result);
+			List<ScreenDto> result = screenDao.findByMovieNameAndMovieDate(movieName, localDate);
+			return new GateWayResponse<>(true, HttpStatus.OK, result);
+		} catch (Exception e) {
+			log.error("Exception {}", e);
+			return new GateWayResponse<>(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
 
 	}
+
+	
 
 }

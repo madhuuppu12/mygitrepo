@@ -11,7 +11,7 @@ import com.cinematrics.vo.ScreenVo;
 
 public interface MovieService {
 
-	void addMovie(ScreenDto vo);
+	void addMovieInScreen(ScreenDto vo);
 
 	void deleteMovie(MovieVo movie) throws MovieNotFoundException;
 

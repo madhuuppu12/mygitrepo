@@ -12,4 +12,6 @@ public interface ScreenDao extends MongoRepository<ScreenDto, Long>{
 	
 	List<ScreenDto> findByMovieNameAndMovieDate(String movieName, LocalDate date);
 
+	List<ScreenDto> findByMovieName(String movieName);
+
 }

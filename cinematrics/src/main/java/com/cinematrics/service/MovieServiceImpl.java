@@ -3,7 +3,6 @@ package com.cinematrics.service;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,9 +26,6 @@ import com.cinematrics.vo.ScreenVo;
 
 @Service
 public class MovieServiceImpl implements MovieService {
-
-	// @Autowired
-	// MovieDao movieDao;
 
 	@Autowired
 	ScreenDao screenDao;
@@ -93,7 +89,7 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public void addMovie(ScreenDto vo) {
+	public void addMovieInScreen(ScreenDto vo) {
 		Sort sort = Sort.by(Order.desc("movieId"));
 		List<ScreenDto> sortedList = screenDao.findAll(sort);
 
@@ -106,15 +102,14 @@ public class MovieServiceImpl implements MovieService {
 				});
 
 				data.getShowTimes().forEach(shows -> {
-					System.out.println("show times  " + Arrays.asList(vo.getShowTimes()));
-					if (l.contains(shows.getName())) {
+					if (l.contains(shows.getName()) && vo.getScreenNo() == data.getScreenNo()) {
 
 						throw new RuntimeException("Show is already exists");
 					}
 
 				}
 
-			);
+				);
 			}
 
 		}
