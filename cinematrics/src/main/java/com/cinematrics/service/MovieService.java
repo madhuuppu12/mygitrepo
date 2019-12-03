@@ -2,7 +2,9 @@ package com.cinematrics.service;
 
 import java.util.List;
 
-import com.cinematrics.dto.Movie;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.cinematrics.dto.MasterMovieDto;
 import com.cinematrics.dto.MovieDto;
 import com.cinematrics.dto.ScreenDto;
 import com.cinematrics.util.MovieNotFoundException;
@@ -17,11 +19,13 @@ public interface MovieService {
 
 	List<ScreenVo> getMoviesData();
 
-	List<Movie> getMoviesList();
+	List<MasterMovieDto> getMoviesList();
 
-	void saveMoviesList(List<Movie> movie);
+	void saveMoviesList(List<MasterMovieDto> movie);
 
 	void addNewMovie(MovieDto dto);
 
 	void addMovie(ScreenVo vo);
+
+	void saveMoviesListWithImage(String name, Long l, MultipartFile file);
 }
